@@ -1,20 +1,66 @@
-// BruteForce.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
+//https://iq.opengenus.org/travelling-salesman-problem-brute-force/
+//https://stackoverflow.com/questions/11703827/brute-force-algorithm-for-the-traveling-salesman-problem-in-java
 #include <iostream>
+#include <chrono>
+
+using namespace std;
+
+int n;
+int connections[5000][5000];
+int best = INT_MAX;
+int act = 0;
+int pathLenght = 0;
+
+void bruteForce(int previousPoint)
+{
+
+	for (int q = 1; q <= n; ++q)
+	{
+		if (q != previousPoint)
+		{
+			act += connections[previousPoint][q];
+			pathLenght++;
+
+			cout << previousPoint << " " << q << " " << act << " " << pathLenght << endl;
+
+			if (pathLenght == n)
+			{
+				cout << act << endl;
+				if (act < best)
+					best = act;
+			}
+
+			else
+			{
+				bruteForce(q);
+			}
+
+			act -= connections[previousPoint][q];
+			pathLenght--;
+		}
+	}
+}
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	cout << "Gimme data\n";
+
+	cin >> n;
+
+	for (int q = 1; q <= n; ++q)
+	{
+		for (int w = 1; w <= n; ++w)
+		{
+			cin >> connections[q][w];
+		}
+	}
+
+	auto startTime = chrono::steady_clock::now();
+
+	bruteForce(4999);
+
+	auto result = chrono::steady_clock::now() - startTime;
+
+	cout << chrono::duration <double, milli> (result).count() << "ms \n";
+	cout << best;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
