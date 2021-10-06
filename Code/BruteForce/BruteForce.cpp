@@ -1,66 +1,73 @@
 //https://iq.opengenus.org/travelling-salesman-problem-brute-force/
-//https://stackoverflow.com/questions/11703827/brute-force-algorithm-for-the-traveling-salesman-problem-in-java
 #include <iostream>
+#include <vector>
+#include <algorithm>
 #include <chrono>
 
 using namespace std;
 
-int n;
-int connections[5000][5000];
-int best = INT_MAX;
-int act = 0;
-int pathLenght = 0;
-
-void bruteForce(int previousPoint)
+class brute_force
 {
+public:
 
-	for (int q = 1; q <= n; ++q)
-	{
-		if (q != previousPoint)
-		{
-			act += connections[previousPoint][q];
-			pathLenght++;
+    int shortest_path_sum(int** edges_list, int num_nodes)
+    {
+        int source = 0;
+        vector<int> nodes;
+        for (int i = 0; i < num_nodes; i++)
+        {
+            if (i != source)
+            {
+                nodes.push_back(i);
+            }
+        }
+        int n = nodes.size();
+        int shortest_path = INT_MAX;
+        while (next_permutation(nodes.begin(), nodes.end()))
+        {
+            int path_weight = 0;
 
-			cout << previousPoint << " " << q << " " << act << " " << pathLenght << endl;
+            int j = source;
+            for (int i = 0; i < n; i++)
+            {
+                path_weight += edges_list[j][nodes[i]];
+                j = nodes[i];
+            }
+            path_weight += edges_list[j][source];
 
-			if (pathLenght == n)
-			{
-				cout << act << endl;
-				if (act < best)
-					best = act;
-			}
-
-			else
-			{
-				bruteForce(q);
-			}
-
-			act -= connections[previousPoint][q];
-			pathLenght--;
-		}
-	}
-}
+            shortest_path = min(shortest_path, path_weight);
+        }
+        return shortest_path;
+    }
+};
 
 int main()
 {
-	cout << "Gimme data\n";
+    /// Getting the number of nodes and number of edges as input
+    int num_nodes;
+    cin >> num_nodes;
 
-	cin >> n;
+    /// creating a multi-dimensional array
+    int** edges_list = new int* [num_nodes];
+    for (int i = 0; i < num_nodes; i++)
+    {
+        edges_list[i] = new int[num_nodes];
+        for (int j = 0; j < num_nodes; j++)
+        {
+            cin >> edges_list[i][j];
+        }
+    }
 
-	for (int q = 1; q <= n; ++q)
-	{
-		for (int w = 1; w <= n; ++w)
-		{
-			cin >> connections[q][w];
-		}
-	}
+    cout << "XD";
+    brute_force approach1;
 
-	auto startTime = chrono::steady_clock::now();
+    auto startTime = chrono::steady_clock::now();
 
-	bruteForce(4999);
+    cout << approach1.shortest_path_sum(edges_list, num_nodes) << endl;
 
-	auto result = chrono::steady_clock::now() - startTime;
+    auto result = chrono::steady_clock::now() - startTime;
 
-	cout << chrono::duration <double, milli> (result).count() << "ms \n";
-	cout << best;
+    cout << chrono::duration <double, milli>(result).count() << "ms \n";
+
+    return 0;
 }
