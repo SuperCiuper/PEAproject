@@ -10,38 +10,18 @@
 using namespace std;
 
 struct result {
-    long long mask;
-    long long cost;
-    long long currentBit;
+    int mask;
+    int cost;
+    short int currentBit;
 };
 
 int n;
 int connections[5000][5000];
-long long shortest_path;
+int shortest_path;
 
-long long maxMask = 1;
-vector<long long> masks;
-vector<result> results[50];
-vector<result> currentMask;
+long long maxMask;
+vector<pair<int, pair<short int, int>>> results[50]; //mask, bit, cost
 result res;
-
-long long bit_twiddle_permute(long long v) {
-    long long t = (v | (v - 1)) + 1;
-    long long w = t | ((((t & -t) / (v & -v)) >> 1) - 1);
-    return w;
-}
-
-void getNewMasks(long long startMask)
-{
-    masks.clear();
-    masks.push_back(startMask);
-    for (long long n = bit_twiddle_permute(startMask); n > startMask; startMask = n, n = bit_twiddle_permute(startMask))
-    {
-        if (n > maxMask)
-            break;
-        masks.push_back(n);
-    }
-}
 
 void findShortestPath()
 {
@@ -49,10 +29,7 @@ void findShortestPath()
     //with 0 size sets
     for (int q = 1; q < n; ++q)
     {
-        res.cost = connections[source][q];
-        res.mask = maxMask;
-        res.currentBit = q;
-        results[0].push_back(res);
+        results[0].push_back(make_pair(maxMask, make_pair(q, connections[source][q])));
         maxMask *= 2;
     }
     maxMask--;
@@ -61,45 +38,52 @@ void findShortestPath()
     for (int bitsOn = 1; bitsOn < n -1; ++bitsOn)
     {
         currentStartMask = currentStartMask * 2 + 1;
-        getNewMasks(currentStartMask);
-
-        for (int q = 0; q < results[bitsOn-1].size(); ++q)
-        {
-            cout << endl << results[bitsOn - 1][q].cost << " " << results[bitsOn - 1][q].currentBit << " " << results[bitsOn - 1][q].mask;
-        }
         res.currentBit = 0;
-        for (long long currentMask = 1; currentMask < maxMask; currentMask*=2)
+        //cout << endl;
+        //for (long long q = 0; q < results[bitsOn - 1].size(); ++q)
+        //    cout << endl << " " << results[bitsOn - 1][q].first << " " << results[bitsOn - 1][q].second.first << " " << results[bitsOn - 1][q].second.second;
+
+        sort(results[bitsOn - 1].begin(), results[bitsOn - 1].end());
+        for (int currentMask = 1; currentMask < maxMask; currentMask*=2)
         {
-            res.currentBit++; //1, 2, 3, 4 || 0001, 0010, 0100, 1000
-            for (long long q = 0; q < masks.size(); ++q)
+            res.currentBit++;
+            res.cost = INT_MAX;
+            for (long long q = 0; q < results[bitsOn - 1].size(); ++q)
             {
-
-                if ((currentMask & masks[q]) != currentMask)
+                if ((currentMask & results[bitsOn - 1][q].first) != currentMask)
                 {
-                    res.cost = LLONG_MAX;
-                    res.mask = (currentMask | masks[q]);
+                    res.cost = res.cost = min(res.cost, (results[bitsOn - 1][q].second.second + connections[results[bitsOn - 1][q].second.first][res.currentBit]));
+                    res.mask = (currentMask | results[bitsOn - 1][q].first);
 
-                    bitset<5> bset(res.mask);
-                    bitset<5> bbset(masks[q]);
-                    cout << endl << " " << bbset << "           " << "bit " << res.currentBit << " bla " << bset;
-
-                    for (long long w=0; w < results[bitsOn - 1].size(); ++w)
-                        if (results[bitsOn - 1][w].mask == masks[q])
-                            res.cost = min(res.cost, (results[bitsOn - 1][w].cost + connections[results[bitsOn - 1][w].currentBit][res.currentBit]));
-                        
-                    results[bitsOn].push_back(res);
+                    if (q + 1 < results[bitsOn - 1].size())
+                    {
+                        if ((currentMask | results[bitsOn - 1][q + 1].first) != res.mask)
+                        {
+                            results[bitsOn].push_back(make_pair(res.mask, make_pair(res.currentBit, res.cost)));
+                            res.cost = INT_MAX;
+                        }
+                    }
+                    else
+                    {
+                        results[bitsOn].push_back(make_pair(res.mask, make_pair(res.currentBit, res.cost)));
+                        res.cost = INT_MAX;
+                    }
                 }
             }
         }
-        results[bitsOn - 1].clear();
+        vector<pair<int, pair<short int, int>>>().swap(results[bitsOn - 1]);
     }
-    for (int q = 0; q < results[n - 2].size(); ++q)
-    {
-        cout << endl << results[n - 2][q].cost << " " << results[n - 2][q].currentBit << " " << results[n - 2][q].mask;
-    }
-    for (long long w = 0; w < results[n - 2].size(); ++w)
-        shortest_path = min(shortest_path, (results[n - 2][w].cost + connections[results[n - 2][w].currentBit][0]));
+
+    //cout << endl;
+    //for (long long q = 0; q < results[n - 2].size(); ++q)
+    //    cout << endl << " " << results[n - 2][q].first << " " << results[n - 2][q].second.first << " " << results[n - 2][q].second.second;
+
+
     //final round
+    for (long long w = 0; w < results[n - 2].size(); ++w)
+        shortest_path = min(shortest_path, (results[n - 2][w].second.second + connections[results[n - 2][w].second.first][0]));
+    
+    vector<pair<int, pair<short int, int>>>().swap(results[n - 2]);
 }
 
 int main()
@@ -120,7 +104,8 @@ int main()
     for (int q = 0; q < 1; ++q)
     {
         cout << "XD" << endl;
-        shortest_path = LLONG_MAX;
+        shortest_path = INT_MAX;
+        maxMask = 1;
         findShortestPath();
     }
     auto result = chrono::steady_clock::now() - startTime;
