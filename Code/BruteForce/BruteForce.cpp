@@ -12,14 +12,13 @@ int shortest_path = INT_MAX;
 
 void findShortestPath()
 {
-    int source = 1;
+    int source = 0;
     vector<int> nodes;
-    for (int q = 1; q <= n; ++q)
+    for (int q = 0; q < n; ++q)
         if (q != source)
             nodes.push_back(q);
         
-        
-    while (next_permutation(nodes.begin(), nodes.end()))
+    do
     {
         int path_weight = 0;
 
@@ -32,7 +31,7 @@ void findShortestPath()
         path_weight += connections[w][source];
 
         shortest_path = min(shortest_path, path_weight);
-    }
+    } while (next_permutation(nodes.begin(), nodes.end()));
 }
 
 int main()
@@ -40,9 +39,9 @@ int main()
     cout << "Gimme data" << endl;
     cin >> n;
 
-    for (int q = 1; q <= n; ++q)
+    for (int q = 0; q < n; ++q)
     {
-        for (int w = 1; w <= n; ++w)
+        for (int w = 0; w < n; ++w)
         {
             cin >> connections[q][w];
         }
@@ -50,7 +49,7 @@ int main()
 
     auto startTime = chrono::steady_clock::now();
 
-    for (int q = 0; q < 3; ++q)
+    for (int q = 0; q < 10; ++q)
     {
         cout << "XD" << endl;
         int shortest_path = INT_MAX;
