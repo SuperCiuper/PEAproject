@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BruteForce", "BruteForce\Br
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Held-Karp", "Held-Karp\Held-Karp.vcxproj", "{3F51D3D7-D264-40C4-8BDD-F5DC75CF012D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Branch_and_Bound", "Branch_and_Bound\Branch_and_Bound.vcxproj", "{AB5DF4C2-FA7D-453A-8530-7A5D1DC61292}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{3F51D3D7-D264-40C4-8BDD-F5DC75CF012D}.Release|x64.Build.0 = Release|x64
 		{3F51D3D7-D264-40C4-8BDD-F5DC75CF012D}.Release|x86.ActiveCfg = Release|Win32
 		{3F51D3D7-D264-40C4-8BDD-F5DC75CF012D}.Release|x86.Build.0 = Release|Win32
+		{AB5DF4C2-FA7D-453A-8530-7A5D1DC61292}.Debug|x64.ActiveCfg = Debug|x64
+		{AB5DF4C2-FA7D-453A-8530-7A5D1DC61292}.Debug|x64.Build.0 = Debug|x64
+		{AB5DF4C2-FA7D-453A-8530-7A5D1DC61292}.Debug|x86.ActiveCfg = Debug|Win32
+		{AB5DF4C2-FA7D-453A-8530-7A5D1DC61292}.Debug|x86.Build.0 = Debug|Win32
+		{AB5DF4C2-FA7D-453A-8530-7A5D1DC61292}.Release|x64.ActiveCfg = Release|x64
+		{AB5DF4C2-FA7D-453A-8530-7A5D1DC61292}.Release|x64.Build.0 = Release|x64
+		{AB5DF4C2-FA7D-453A-8530-7A5D1DC61292}.Release|x86.ActiveCfg = Release|Win32
+		{AB5DF4C2-FA7D-453A-8530-7A5D1DC61292}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
