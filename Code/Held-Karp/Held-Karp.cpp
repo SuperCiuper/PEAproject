@@ -98,9 +98,6 @@ int main()
             cin >> connections[q][w];
         }
     }
-    for (int q = 0; q < n; ++q)
-        if (q != 6)
-            connections[6][q] += 10;
 
     auto startTime = chrono::steady_clock::now();
 
