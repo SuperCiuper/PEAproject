@@ -2,13 +2,38 @@
 #include <vector>
 #include <algorithm>
 #include <chrono>
+#include <Ini.h>
+#include <sstream>
+#include <Windows.h>
 
 using namespace std;
 
 int n;
 int connections[5000][5000];
 int shortest_path = INT_MAX;
+ifstream file;
 
+stringstream read()
+{
+    string word;
+    char x;
+    word.clear();
+    stringstream ss;
+    int tni = 0;
+    
+    x = file.get();
+    while (x == ' ')
+        x = file.get();
+    
+    while (x != ' ' && !file.eof())
+    {
+        word = word + x;
+        x = file.get();
+    }
+    ss << word;
+    word.clear();
+    return ss;
+}
 
 void findShortestPath()
 {
@@ -36,29 +61,36 @@ void findShortestPath()
 
 int main()
 {
-    cout << "Gimme data" << endl;
-    cin >> n;
+    file.open("XD.INI");
+    string dataFile = read().str();
+    int repeats = 0;
+    int result = 0;
+    read() >> repeats;
+    file.close();
+    file.open(dataFile);
+    read() >> n;
 
     for (int q = 0; q < n; ++q)
     {
         for (int w = 0; w < n; ++w)
         {
-            cin >> connections[q][w];
+            read() >> connections[q][w];
         }
     }
-
+    cout << "\ngot it\n";
+    read() >> result;
     auto startTime = chrono::steady_clock::now();
 
-    for (int q = 0; q < 10; ++q)
+    for (int q = 0; q < repeats; ++q)
     {
         cout << "XD" << endl;
         int shortest_path = INT_MAX;
         findShortestPath();
     }
-    auto result = chrono::steady_clock::now() - startTime;
+    auto resultTime = chrono::steady_clock::now() - startTime;
 
-    cout << shortest_path << endl;
-    cout << chrono::duration <double, milli>(result).count() << "ms \n";
+    cout << shortest_path <<  " - expected: " << result << endl;
+    cout << chrono::duration <double, milli>(resultTime).count() << "ms \n";
     
-    return 0;
+    while (1);
 }

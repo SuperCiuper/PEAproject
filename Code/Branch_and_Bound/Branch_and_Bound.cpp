@@ -5,12 +5,36 @@
 #include <math.h>
 #include <utility>
 #include <queue>
+#include <Ini.h>
 
 using namespace std;
 
 int n;
 int shortest_path;
 vector<int> solution_list;
+ifstream file;
+
+stringstream read()
+{
+    string word;
+    char x;
+    word.clear();
+    stringstream ss;
+    int tni = 0;
+
+    x = file.get();
+    while (x == ' ')
+        x = file.get();
+
+    while (x != ' ' && !file.eof())
+    {
+        word = word + x;
+        x = file.get();
+    }
+    ss << word;
+    word.clear();
+    return ss;
+}
 
 struct Node
 {
@@ -156,32 +180,39 @@ int findShortestPath(vector<vector<short int>>& connections)
 
 int main()
 {
-    cout << "Gimme data" << endl;
-    cin >> n;
-
+    file.open("XD.INI");
+    string dataFile = read().str();
+    int repeats = 0;
+    int result = 0;
+    read() >> repeats;
+    file.close();
+    file.open(dataFile);
+    read() >> n;
     vector<vector<short int>> connections(n, vector<short int>(n));
 
     for (int q = 0; q < n; ++q)
     {
         for (int w = 0; w < n; ++w)
         {
-            cin >> connections[q][w];
+            read() >> connections[q][w];
 
             if (q == w)
                 connections[q][w] = SHRT_MAX;
         }
     }
-    
-    auto startTime = chrono::steady_clock::now();
-    auto result = chrono::steady_clock::now() - startTime;
+    cout << "\ngot it\n";
+    read() >> result;
 
-    for (int q = 0; q < 10; ++q)
+    auto startTime = chrono::steady_clock::now();
+    auto resultTime = chrono::steady_clock::now() - startTime;
+
+    for (int q = 0; q < repeats; ++q)
     {
         cout << "XD" << endl;
         shortest_path = SHRT_MAX;
         startTime = chrono::steady_clock::now();
         shortest_path = findShortestPath(connections);
-        result = result + chrono::steady_clock::now() - startTime;
+        resultTime = resultTime + chrono::steady_clock::now() - startTime;
         while (!priorityQueue.empty())
         {
             Node* currentNode = priorityQueue.top();
@@ -190,9 +221,8 @@ int main()
         }
     }
     
-
-    cout << shortest_path << endl;
-    cout << chrono::duration <double, milli>(result).count() << "ms \n";
+    cout << shortest_path << " - expected: " << result << endl;
+    cout << chrono::duration <double, milli>(resultTime).count() << "ms \n";
 
     while (1);
 }
