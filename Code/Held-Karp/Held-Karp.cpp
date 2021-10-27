@@ -4,9 +4,8 @@
 #include <chrono>
 #include <math.h>
 #include <utility>
-#include <bitset>
-#include <bitset>
-#include <Ini.h>
+#include <sstream>
+#include <fstream>
 
 using namespace std;
 
@@ -134,8 +133,8 @@ int main()
 
     for (int q = 0; q < repeats; ++q)
     {
-        cout << "XD" << endl;
-        int shortest_path = INT_MAX;
+        cout << "Iteration " << q << endl;
+        shortest_path = INT_MAX;
         maxMask = 1;
         findShortestPath();
     }

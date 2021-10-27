@@ -5,7 +5,8 @@
 #include <math.h>
 #include <utility>
 #include <queue>
-#include <Ini.h>
+#include <sstream>
+#include <fstream>
 
 using namespace std;
 
@@ -208,7 +209,7 @@ int main()
 
     for (int q = 0; q < repeats; ++q)
     {
-        cout << "XD" << endl;
+        cout << "Iteration " << q << endl;
         shortest_path = SHRT_MAX;
         startTime = chrono::steady_clock::now();
         shortest_path = findShortestPath(connections);

@@ -2,15 +2,17 @@
 #include <vector>
 #include <algorithm>
 #include <chrono>
-#include <Ini.h>
 #include <sstream>
 #include <Windows.h>
+#include <fstream>
 
 using namespace std;
 
 int n;
 int connections[5000][5000];
 int shortest_path = INT_MAX;
+int path_weight;
+int w;
 ifstream file;
 
 stringstream read()
@@ -45,12 +47,14 @@ void findShortestPath()
         
     do
     {
-        int path_weight = 0;
-
-        int w = source;
+        path_weight = 0;
+        w = source;
         for (int q = 0; q < n-1; ++q)
         {
             path_weight += connections[w][nodes[q]];
+            if (path_weight >= shortest_path)
+                break;
+            
             w = nodes[q];
         }
         path_weight += connections[w][source];
@@ -61,7 +65,7 @@ void findShortestPath()
 
 int main()
 {
-    file.open("XD.INI");
+    file.open("XD.INI"); //{path to dataFile} {repeat count}
     string dataFile = read().str();
     int repeats = 0;
     int result = 0;
@@ -83,7 +87,7 @@ int main()
 
     for (int q = 0; q < repeats; ++q)
     {
-        cout << "XD" << endl;
+        cout << "Iteration " << q << endl;
         int shortest_path = INT_MAX;
         findShortestPath();
     }
