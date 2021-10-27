@@ -111,6 +111,7 @@ void findShortestPath()
 
 int main()
 {
+    cout << "Data file should not have any \' \' before first character in a row" << endl;
     file.open("XD.INI");
     string dataFile = read().str();
     int repeats = 0;

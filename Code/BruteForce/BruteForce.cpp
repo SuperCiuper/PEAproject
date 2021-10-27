@@ -65,6 +65,7 @@ void findShortestPath()
 
 int main()
 {
+    cout << "Data file should not have any empty space before first character in a row" << endl;
     file.open("XD.INI"); //{path to dataFile} {repeat count}
     string dataFile = read().str();
     int repeats = 0;

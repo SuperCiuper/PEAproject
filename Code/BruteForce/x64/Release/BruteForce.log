@@ -1,7 +1,7 @@
 ﻿  BruteForce.cpp
   Generating code
-  2 of 292 functions ( 0.7%) were compiled, the rest were copied from previous compilation.
+  1 of 292 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    37 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   BruteForce.vcxproj -> C:\Users\SuperCiuper\Documents\GitHub\PEAproject\Code\x64\Release\BruteForce.exe
