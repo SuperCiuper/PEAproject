@@ -1,20 +1,5 @@
-﻿  Held-Karp.cpp
-C:\Users\SuperCiuper\Documents\GitHub\PEAproject\Code\Held-Karp\Held-Karp.cpp(75,37): warning C4018: '<': signed/unsigned mismatch
-C:\Users\SuperCiuper\Documents\GitHub\PEAproject\Code\Held-Karp\Held-Karp.cpp(82,31): warning C4018: '<': signed/unsigned mismatch
-C:\Users\SuperCiuper\Documents\GitHub\PEAproject\Code\Held-Karp\Held-Karp.cpp(107,29): warning C4018: '<': signed/unsigned mismatch
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\utility(249,16): warning C4244: 'initializing': conversion from '_Ty' to '_Ty1', possible loss of data
-          with
-          [
-              _Ty=__int64
-          ]
-          and
-          [
-              _Ty1=int
-          ]
-C:\Users\SuperCiuper\Documents\GitHub\PEAproject\Code\Held-Karp\Held-Karp.cpp(56): message : see reference to function template instantiation 'std::pair<int,std::pair<short,int>>::pair<__int64,std::pair<int,int>,0>(std::pair<__int64,std::pair<int,int>> &&) noexcept' being compiled
-C:\Users\SuperCiuper\Documents\GitHub\PEAproject\Code\Held-Karp\Held-Karp.cpp(56): message : see reference to function template instantiation 'std::pair<int,std::pair<short,int>>::pair<__int64,std::pair<int,int>,0>(std::pair<__int64,std::pair<int,int>> &&) noexcept' being compiled
-  Generating code
-  1 of 346 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
+﻿  Generating code
+  0 of 346 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code

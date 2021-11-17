@@ -44,7 +44,7 @@ stringstream read()
     return ss;
 }
 
-int getCost() //This function returns the tour length of the current order of cities
+int getCost()
 {
     int cost = connections[0][nextPath[0]];
 
