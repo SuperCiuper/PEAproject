@@ -15,7 +15,10 @@ int n;
 int connections[200][200];
 int shortest_path;
 int currentCost;
+int bestEpochCost;
+int epoch = 0;
 ifstream file;
+vector<int> currentNextPath;
 vector<int> shortestPath;
 vector<int> currentPath;
 vector<int> nextPath;
@@ -96,8 +99,7 @@ void findShortestPath()
     currentCost = shortest_path;
 
     double temperature = pow(n, 2) * 1000.0;
-    double startTemperature = temperature;
-    double coolingRate = 0.99, absoluteTemperature = 0.00001;
+    double coolingRate = 0.999999999, absoluteTemperature = 0.00000000001;
     int vertex1, vertex2;
     int newCost;
     vector<int>::iterator iter;
@@ -105,23 +107,46 @@ void findShortestPath()
 
     while (temperature > absoluteTemperature)
     {
-        nextPath.clear();
+        epoch++;
+
+        currentNextPath.clear();
         for (int q = 0; q < currentPath.size(); ++q)
-            nextPath.push_back(currentPath[q]);
+            currentNextPath.push_back(currentPath[q]);
 
-        int vertex1 = rand() % (n - 1);
-        int vertex2 = rand() % (n - 1);
-        while (vertex1 == vertex2) 
-            vertex2 = rand() % (n - 1);
-        
-        //version with single element swap
-        //swapPath(vertex1, vertex2);
-        
-        //version with invert
-        invert(vertex1, vertex2);
+        bestEpochCost = getCost();
 
-        //version with random shuffle
-        //shuffle(vertex1, vertex2);
+        for (int q = 0; q < max(n/10, 5); ++q)
+        {
+            nextPath.clear();
+            for (int q = 0; q < currentNextPath.size(); ++q)
+                nextPath.push_back(currentNextPath[q]);
+
+            int vertex1 = rand() % (n - 1);
+            int vertex2 = rand() % (n - 1);
+            while (vertex1 == vertex2)
+                vertex2 = rand() % (n - 1);
+
+            //version with single element swap
+            //swapPath(vertex1, vertex2);
+
+            //version with invert
+            invert(vertex1, vertex2);
+
+            //version with random shuffle
+            //shuffle(vertex1, vertex2);
+
+            newCost = getCost();
+            if (newCost < bestEpochCost) 
+            {
+                bestEpochCost = newCost;
+                currentNextPath.clear();
+                for (int q = 0; q < nextPath.size(); ++q)
+                    currentNextPath.push_back(nextPath[q]);
+            }
+        }
+        nextPath.clear();
+        for (int q = 0; q < currentNextPath.size(); ++q)
+            nextPath.push_back(currentNextPath[q]);
 
         newCost = getCost();
         if (currentCost > newCost || (exp((currentCost - newCost) / temperature)) > distribution(generator))
@@ -146,9 +171,10 @@ void findShortestPath()
             for (int q = 0; q < shortestPath.size(); ++q)
                 currentPath.push_back(shortestPath[q]);
         }
+
         //cout << "vertex1 is " << vertex1 << " vertex2 is " << vertex2 << "\n";
         //cout << "new cost is " << newCost << " currentCost is " << currentCost << " shortest_path is " << shortest_path << " " << endl << endl;
-        temperature = temperature * coolingRate;
+        temperature = temperature * pow(coolingRate, epoch);
     }
 }
 
@@ -170,6 +196,14 @@ int main()
         {
             read() >> connections[q][w];
         }
+    }
+    for (int q = 0; q < n; ++q)
+    {
+        for (int w = 0; w < n; ++w)
+        {
+            cout<< connections[q][w] << " ";
+        }
+        cout << endl;
     }
     cout << "\ngot it\n";
     read() >> result;
