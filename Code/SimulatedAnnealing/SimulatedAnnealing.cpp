@@ -12,7 +12,7 @@
 using namespace std;
 
 int n;
-int connections[200][200];
+int connections[500][500];
 int bestCost;
 int currentCost;
 int bestEpochCost;
@@ -86,7 +86,7 @@ void findShortestPath()
 {
     for (int q = 0; q < n - 1; ++q)
         currentPath.push_back(q + 1);
-
+    
     nextPath.clear();
     for (int q = 0; q < currentPath.size(); ++q)
         nextPath.push_back(currentPath[q]);
@@ -180,11 +180,12 @@ void findShortestPath()
 
 int main()
 {
-    cout << "Data file should not have any \' \' before first character in a row" << endl;
+    cout << "Data file should have at least one \" \" before each value" << endl;
     file.open("XD.INI");
     string dataFile = read().str();
     int repeats = 0;
     int result = 0;
+    int totalBestCost = 0;
     read() >> repeats;
     file.close();
     file.open(dataFile);
@@ -214,11 +215,14 @@ int main()
         cout << "Iteration " << q << endl;
         bestCost = INT_MAX;
         findShortestPath();
+        totalBestCost += bestCost;
     }
     auto resultTime = chrono::steady_clock::now() - startTime;
 
-    cout << bestCost << " - expected: " << result << endl;
-    cout << chrono::duration <double, milli>(resultTime).count() << "ms \n";
+    double bestCostDiff = 0;
+    bestCostDiff = (((double)totalBestCost / (double)repeats) - (double)result) * (double)100 / (double)result;
+    cout << bestCost << " - expected: " << result << " difference: " << bestCostDiff << endl;
+    cout << chrono::duration <double>(resultTime).count()/repeats << "s \n";
 
     while (1);
 }

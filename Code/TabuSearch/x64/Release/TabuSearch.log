@@ -1,7 +1,7 @@
 ﻿  TabuSearch.cpp
-C:\Users\szymo\Dokumenty\GitHub\PEAproject\Code\TabuSearch\TabuSearch.cpp(129,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\SuperCiuper\Documents\GitHub\PEAproject\Code\TabuSearch\TabuSearch.cpp(129,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   Generating code
   Previous IPDB was built with incompatible compiler, fall back to full compilation.
   All 395 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
-  TabuSearch.vcxproj -> C:\Users\szymo\Dokumenty\GitHub\PEAproject\Code\x64\Release\TabuSearch.exe
+  TabuSearch.vcxproj -> C:\Users\SuperCiuper\Documents\GitHub\PEAproject\Code\x64\Release\TabuSearch.exe
