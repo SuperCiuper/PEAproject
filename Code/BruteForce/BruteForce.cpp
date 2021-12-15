@@ -10,7 +10,7 @@ using namespace std;
 
 int n;
 int connections[5000][5000];
-int shortest_path = INT_MAX;
+int bestCost = INT_MAX;
 int path_weight;
 int w;
 ifstream file;
@@ -52,14 +52,14 @@ void findShortestPath()
         for (int q = 0; q < n-1; ++q)
         {
             path_weight += connections[w][nodes[q]];
-            if (path_weight >= shortest_path)
+            if (path_weight >= bestCost)
                 break;
             
             w = nodes[q];
         }
         path_weight += connections[w][source];
 
-        shortest_path = min(shortest_path, path_weight);
+        bestCost = min(bestCost, path_weight);
     } while (next_permutation(nodes.begin(), nodes.end()));
 }
 
@@ -94,7 +94,7 @@ int main()
     }
     auto resultTime = chrono::steady_clock::now() - startTime;
 
-    cout << shortest_path <<  " - expected: " << result << endl;
+    cout << bestCost <<  " - expected: " << result << endl;
     cout << chrono::duration <double, milli>(resultTime).count() << "ms \n";
     
     while (1);

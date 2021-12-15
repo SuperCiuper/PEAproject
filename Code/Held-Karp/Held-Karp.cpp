@@ -17,7 +17,7 @@ struct result {
 
 int n;
 int connections[5000][5000];
-int shortest_path;
+int bestCost;
 
 long long maxMask;
 vector<pair<int, pair<short int, int>>> results[50]; //mask, bit, cost
@@ -104,7 +104,7 @@ void findShortestPath()
 
     //final round
     for (long long w = 0; w < results[n - 2].size(); ++w)
-        shortest_path = min(shortest_path, (results[n - 2][w].second.second + connections[results[n - 2][w].second.first][0]));
+        bestCost = min(bestCost, (results[n - 2][w].second.second + connections[results[n - 2][w].second.first][0]));
     
     vector<pair<int, pair<short int, int>>>().swap(results[n - 2]);
 }
@@ -135,13 +135,13 @@ int main()
     for (int q = 0; q < repeats; ++q)
     {
         cout << "Iteration " << q << endl;
-        shortest_path = INT_MAX;
+        bestCost = INT_MAX;
         maxMask = 1;
         findShortestPath();
     }
     auto resultTime = chrono::steady_clock::now() - startTime;
 
-    cout << shortest_path << " - expected: " << result << endl;
+    cout << bestCost << " - expected: " << result << endl;
     cout << chrono::duration <double, milli>(resultTime).count() << "ms \n";
 
     while (1);

@@ -13,13 +13,13 @@ using namespace std;
 
 int n;
 int connections[200][200];
-int shortest_path;
+int bestCost;
 int currentCost;
 int bestEpochCost;
 int epoch = 0;
 ifstream file;
-vector<int> currentNextPath;
-vector<int> shortestPath;
+vector<int> epochBestPath;
+vector<int> bestPath;
 vector<int> currentPath;
 vector<int> nextPath;
 uniform_real_distribution<double> distribution(0.0, 1.0);
@@ -91,12 +91,12 @@ void findShortestPath()
     for (int q = 0; q < currentPath.size(); ++q)
         nextPath.push_back(currentPath[q]);
 
-    shortestPath.clear();
+    bestPath.clear();
     for (int q = 0; q < currentPath.size(); ++q)
-        shortestPath.push_back(currentPath[q]);
+        bestPath.push_back(currentPath[q]);
 
-    shortest_path = getCost();
-    currentCost = shortest_path;
+    bestCost = getCost();
+    currentCost = bestCost;
 
     double temperature = pow(n, 2) * 1000.0;
     double coolingRate = 0.999999999, absoluteTemperature = 0.00000000001;
@@ -109,17 +109,17 @@ void findShortestPath()
     {
         epoch++;
 
-        currentNextPath.clear();
+        epochBestPath.clear();
         for (int q = 0; q < currentPath.size(); ++q)
-            currentNextPath.push_back(currentPath[q]);
+            epochBestPath.push_back(currentPath[q]);
 
-        bestEpochCost = getCost();
+        bestEpochCost = currentCost;
 
         for (int q = 0; q < max(n/10, 5); ++q)
         {
             nextPath.clear();
-            for (int q = 0; q < currentNextPath.size(); ++q)
-                nextPath.push_back(currentNextPath[q]);
+            for (int q = 0; q < epochBestPath.size(); ++q)
+                nextPath.push_back(epochBestPath[q]);
 
             int vertex1 = rand() % (n - 1);
             int vertex2 = rand() % (n - 1);
@@ -139,14 +139,14 @@ void findShortestPath()
             if (newCost < bestEpochCost) 
             {
                 bestEpochCost = newCost;
-                currentNextPath.clear();
+                epochBestPath.clear();
                 for (int q = 0; q < nextPath.size(); ++q)
-                    currentNextPath.push_back(nextPath[q]);
+                    epochBestPath.push_back(nextPath[q]);
             }
         }
         nextPath.clear();
-        for (int q = 0; q < currentNextPath.size(); ++q)
-            nextPath.push_back(currentNextPath[q]);
+        for (int q = 0; q < epochBestPath.size(); ++q)
+            nextPath.push_back(epochBestPath[q]);
 
         newCost = getCost();
         if (currentCost > newCost || (exp((currentCost - newCost) / temperature)) > distribution(generator))
@@ -156,20 +156,20 @@ void findShortestPath()
             for (int q = 0; q < nextPath.size(); ++q)
                 currentPath.push_back(nextPath[q]);
 
-            if (currentCost < shortest_path)
+            if (currentCost < bestCost)
             {
-                shortest_path = currentCost;
-                shortestPath.clear();
+                bestCost = currentCost;
+                bestPath.clear();
                 for (int q = 0; q < currentPath.size(); ++q)
-                    shortestPath.push_back(currentPath[q]);
+                    bestPath.push_back(currentPath[q]);
             }
-        }
-        if (currentCost > (shortest_path * 1.5))
-        {
-            currentCost = shortest_path;
-            currentPath.clear();
-            for (int q = 0; q < shortestPath.size(); ++q)
-                currentPath.push_back(shortestPath[q]);
+            else if (currentCost > (bestCost * 1.5))
+            {
+                currentCost = bestCost;
+                currentPath.clear();
+                for (int q = 0; q < bestPath.size(); ++q)
+                    currentPath.push_back(bestPath[q]);
+            }
         }
 
         //cout << "vertex1 is " << vertex1 << " vertex2 is " << vertex2 << "\n";
@@ -212,12 +212,12 @@ int main()
     for (int q = 0; q < repeats; ++q)
     {
         cout << "Iteration " << q << endl;
-        shortest_path = INT_MAX;
+        bestCost = INT_MAX;
         findShortestPath();
     }
     auto resultTime = chrono::steady_clock::now() - startTime;
 
-    cout << shortest_path << " - expected: " << result << endl;
+    cout << bestCost << " - expected: " << result << endl;
     cout << chrono::duration <double, milli>(resultTime).count() << "ms \n";
 
     while (1);

@@ -11,7 +11,7 @@
 using namespace std;
 
 int n;
-int shortest_path;
+int bestCost;
 vector<int> solution_list;
 ifstream file;
 
@@ -211,9 +211,9 @@ int main()
     for (int q = 0; q < repeats; ++q)
     {
         cout << "Iteration " << q << endl;
-        shortest_path = SHRT_MAX;
+        bestCost = SHRT_MAX;
         startTime = chrono::steady_clock::now();
-        shortest_path = findShortestPath(connections);
+        bestCost = findShortestPath(connections);
         resultTime = resultTime + chrono::steady_clock::now() - startTime;
         while (!priorityQueue.empty())
         {
@@ -223,7 +223,7 @@ int main()
         }
     }
     
-    cout << shortest_path << " - expected: " << result << endl;
+    cout << bestCost << " - expected: " << result << endl;
     cout << chrono::duration <double, milli>(resultTime).count() << "ms \n";
 
     while (1);

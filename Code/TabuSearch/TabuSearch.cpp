@@ -13,10 +13,10 @@ using namespace std;
 
 int n;
 int connections[2000][2000];
-int shortest_path;
+int bestCost;
 int currentCost;
 ifstream file;
-vector<int> shortestPath;
+vector<int> bestPath;
 vector<int> currentPath;
 vector<int> nextPath;
 pair<int,int>  bestChange;
@@ -134,16 +134,16 @@ void findShortestPath()
 	for (int q = 0; q < n - 1; ++q)
 		currentPath.push_back(q + 1);
 
-	shortestPath.clear();
+	bestPath.clear();
 	for (int q = 0; q < currentPath.size(); ++q)
-		shortestPath.push_back(currentPath[q]);
+		bestPath.push_back(currentPath[q]);
 
 	nextPath.clear();
 	for (int q = 0; q < currentPath.size(); ++q)
 		nextPath.push_back(currentPath[q]);
 
 	currentCost = getCost();
-	shortest_path = currentCost;
+	bestCost = currentCost;
 
 	clock_t begin = clock();
 	while (totalTime < n)
@@ -154,12 +154,12 @@ void findShortestPath()
 		//	cout << currentPath[q] << " ";
 		//cout << "    " << currentCost << endl;
 
-		if (currentCost < shortest_path)
+		if (currentCost < bestCost)
 		{
-			shortest_path = currentCost;
-			shortestPath.clear();
+			bestCost = currentCost;
+			bestPath.clear();
 			for (int q = 0; q < currentPath.size(); ++q)
-				shortestPath.push_back(currentPath[q]);
+				bestPath.push_back(currentPath[q]);
 
 			pathNotChanged = 0;
 		}
@@ -211,12 +211,12 @@ int main()
     for (int q = 0; q < repeats; ++q)
     {
         cout << "Iteration " << q << endl;
-        shortest_path = INT_MAX;
+        bestCost = INT_MAX;
         findShortestPath();
     }
     auto resultTime = chrono::steady_clock::now() - startTime;
 
-    cout << shortest_path << " - expected: " << result << endl;
+    cout << bestCost << " - expected: " << result << endl;
     cout << chrono::duration <double, milli>(resultTime).count() << "ms \n";
 
     while (1);
