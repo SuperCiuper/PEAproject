@@ -87,13 +87,8 @@ void findShortestPath()
     for (int q = 0; q < n - 1; ++q)
         currentPath.push_back(q + 1);
     
-    nextPath.clear();
-    for (int q = 0; q < currentPath.size(); ++q)
-        nextPath.push_back(currentPath[q]);
-
-    bestPath.clear();
-    for (int q = 0; q < currentPath.size(); ++q)
-        bestPath.push_back(currentPath[q]);
+    nextPath = currentPath;
+    bestPath = currentPath;
 
     bestCost = getCost();
     currentCost = bestCost;
@@ -108,210 +103,12 @@ void findShortestPath()
     while (temperature > absoluteTemperature)
     {
         epoch++;
-
-        epochBestPath.clear();
-        for (int q = 0; q < currentPath.size(); ++q)
-            epochBestPath.push_back(currentPath[q]);
-
+        epochBestPath = currentPath;
         bestEpochCost = currentCost;
 
         for (int q = 0; q < max(n/10, 5); ++q)
         {
-            nextPath.clear();
-            for (int q = 0; q < epochBestPath.size(); ++q)
-                nextPath.push_back(epochBestPath[q]);
-
-            int vertex1 = rand() % (n - 1);
-            int vertex2 = rand() % (n - 1);
-            while (vertex1 == vertex2)
-                vertex2 = rand() % (n - 1);
-
-            //version with single element swap
-            swap(vertex1, vertex2);
-
-            //version with invert
-            //invert(vertex1, vertex2);
-
-            //version with random shuffle
-            //shuffle(vertex1, vertex2);
-
-            newCost = getCost();
-            if (newCost < bestEpochCost) 
-            {
-                bestEpochCost = newCost;
-                epochBestPath.clear();
-                for (int q = 0; q < nextPath.size(); ++q)
-                    epochBestPath.push_back(nextPath[q]);
-            }
-        }
-        nextPath.clear();
-        for (int q = 0; q < epochBestPath.size(); ++q)
-            nextPath.push_back(epochBestPath[q]);
-
-        newCost = getCost();
-        if (currentCost > newCost || (exp((currentCost - newCost) / temperature)) > distribution(generator))
-        {
-            currentCost = newCost;
-            currentPath.clear();
-            for (int q = 0; q < nextPath.size(); ++q)
-                currentPath.push_back(nextPath[q]);
-
-            if (currentCost < bestCost)
-            {
-                bestCost = currentCost;
-                bestPath.clear();
-                for (int q = 0; q < currentPath.size(); ++q)
-                    bestPath.push_back(currentPath[q]);
-            }
-            else if (currentCost > (bestCost * 1.5))
-            {
-                currentCost = bestCost;
-                currentPath.clear();
-                for (int q = 0; q < bestPath.size(); ++q)
-                    currentPath.push_back(bestPath[q]);
-            }
-        }
-
-        //cout << "vertex1 is " << vertex1 << " vertex2 is " << vertex2 << "\n";
-        //cout << "new cost is " << newCost << " currentCost is " << currentCost << " shortest_path is " << shortest_path << " " << endl << endl;
-        temperature = temperature * pow(coolingRate, epoch);
-    }
-}
-
-void findShortestPath2()
-{
-    for (int q = 0; q < n - 1; ++q)
-        currentPath.push_back(q + 1);
-
-    nextPath.clear();
-    for (int q = 0; q < currentPath.size(); ++q)
-        nextPath.push_back(currentPath[q]);
-
-    bestPath.clear();
-    for (int q = 0; q < currentPath.size(); ++q)
-        bestPath.push_back(currentPath[q]);
-
-    bestCost = getCost();
-    currentCost = bestCost;
-
-    double temperature = pow(n, 2) * 1000.0;
-    double coolingRate = 0.999999999, absoluteTemperature = 0.00000000001;
-    int vertex1, vertex2;
-    int newCost;
-    vector<int>::iterator iter;
-    srand(time(0));
-
-    while (temperature > absoluteTemperature)
-    {
-        epoch++;
-
-        epochBestPath.clear();
-        for (int q = 0; q < currentPath.size(); ++q)
-            epochBestPath.push_back(currentPath[q]);
-
-        bestEpochCost = currentCost;
-
-        for (int q = 0; q < max(n / 10, 5); ++q)
-        {
-            nextPath.clear();
-            for (int q = 0; q < epochBestPath.size(); ++q)
-                nextPath.push_back(epochBestPath[q]);
-
-            int vertex1 = rand() % (n - 1);
-            int vertex2 = rand() % (n - 1);
-            while (vertex1 == vertex2)
-                vertex2 = rand() % (n - 1);
-
-            //version with single element swap
-            //swap(vertex1, vertex2);
-
-            //version with invert
-            invert(vertex1, vertex2);
-
-            //version with random shuffle
-            //shuffle(vertex1, vertex2);
-
-            newCost = getCost();
-            if (newCost < bestEpochCost)
-            {
-                bestEpochCost = newCost;
-                epochBestPath.clear();
-                for (int q = 0; q < nextPath.size(); ++q)
-                    epochBestPath.push_back(nextPath[q]);
-            }
-        }
-        nextPath.clear();
-        for (int q = 0; q < epochBestPath.size(); ++q)
-            nextPath.push_back(epochBestPath[q]);
-
-        newCost = getCost();
-        if (currentCost > newCost || (exp((currentCost - newCost) / temperature)) > distribution(generator))
-        {
-            currentCost = newCost;
-            currentPath.clear();
-            for (int q = 0; q < nextPath.size(); ++q)
-                currentPath.push_back(nextPath[q]);
-
-            if (currentCost < bestCost)
-            {
-                bestCost = currentCost;
-                bestPath.clear();
-                for (int q = 0; q < currentPath.size(); ++q)
-                    bestPath.push_back(currentPath[q]);
-            }
-            else if (currentCost > (bestCost * 1.5))
-            {
-                currentCost = bestCost;
-                currentPath.clear();
-                for (int q = 0; q < bestPath.size(); ++q)
-                    currentPath.push_back(bestPath[q]);
-            }
-        }
-
-        //cout << "vertex1 is " << vertex1 << " vertex2 is " << vertex2 << "\n";
-        //cout << "new cost is " << newCost << " currentCost is " << currentCost << " shortest_path is " << shortest_path << " " << endl << endl;
-        temperature = temperature * pow(coolingRate, epoch);
-    }
-}
-
-void findShortestPath3()
-{
-    for (int q = 0; q < n - 1; ++q)
-        currentPath.push_back(q + 1);
-
-    nextPath.clear();
-    for (int q = 0; q < currentPath.size(); ++q)
-        nextPath.push_back(currentPath[q]);
-
-    bestPath.clear();
-    for (int q = 0; q < currentPath.size(); ++q)
-        bestPath.push_back(currentPath[q]);
-
-    bestCost = getCost();
-    currentCost = bestCost;
-
-    double temperature = pow(n, 2) * 1000.0;
-    double coolingRate = 0.999999999, absoluteTemperature = 0.00000000001;
-    int vertex1, vertex2;
-    int newCost;
-    vector<int>::iterator iter;
-    srand(time(0));
-
-    while (temperature > absoluteTemperature)
-    {
-        epoch++;
-
-        epochBestPath.clear();
-        for (int q = 0; q < currentPath.size(); ++q)
-            epochBestPath.push_back(currentPath[q]);
-
-        bestEpochCost = currentCost;
-
-        for (int q = 0; q < max(n / 10, 5); ++q)
-        {
-            nextPath.clear();
-            for (int q = 0; q < epochBestPath.size(); ++q)
-                nextPath.push_back(epochBestPath[q]);
+            nextPath = epochBestPath;
 
             int vertex1 = rand() % (n - 1);
             int vertex2 = rand() % (n - 1);
@@ -328,39 +125,29 @@ void findShortestPath3()
             shuffle(vertex1, vertex2);
 
             newCost = getCost();
-            if (newCost < bestEpochCost)
+            if (newCost < bestEpochCost) 
             {
                 bestEpochCost = newCost;
-                epochBestPath.clear();
-                for (int q = 0; q < nextPath.size(); ++q)
-                    epochBestPath.push_back(nextPath[q]);
+                epochBestPath = nextPath;
             }
         }
-        nextPath.clear();
-        for (int q = 0; q < epochBestPath.size(); ++q)
-            nextPath.push_back(epochBestPath[q]);
+        nextPath = epochBestPath;
 
         newCost = getCost();
         if (currentCost > newCost || (exp((currentCost - newCost) / temperature)) > distribution(generator))
         {
             currentCost = newCost;
-            currentPath.clear();
-            for (int q = 0; q < nextPath.size(); ++q)
-                currentPath.push_back(nextPath[q]);
+            currentPath = nextPath;
 
             if (currentCost < bestCost)
             {
                 bestCost = currentCost;
-                bestPath.clear();
-                for (int q = 0; q < currentPath.size(); ++q)
-                    bestPath.push_back(currentPath[q]);
+                bestPath = currentPath;
             }
             else if (currentCost > (bestCost * 1.5))
             {
                 currentCost = bestCost;
-                currentPath.clear();
-                for (int q = 0; q < bestPath.size(); ++q)
-                    currentPath.push_back(bestPath[q]);
+                currentPath = bestPath;
             }
         }
 
@@ -390,14 +177,7 @@ int main()
             read() >> connections[q][w];
         }
     }
-    for (int q = 0; q < n; ++q)
-    {
-        cout << endl;
-        for (int w = 0; w < n; ++w)
-        {
-            cout << connections[q][w] << " ";
-        }
-    }
+
     cout << "\ngot it\n";
     read() >> result;
     auto startTime = chrono::steady_clock::now();
@@ -416,42 +196,5 @@ int main()
     cout << bestCost << " - expected: " << result << " difference: " << bestCostDiff << endl;
     cout << chrono::duration <double>(resultTime).count()/repeats << "s \n";
 
-
-    totalBestCost = 0;
-
-    startTime = chrono::steady_clock::now();
-
-    for (int q = 0; q < repeats; ++q)
-    {
-        cout << "Iteration " << q << endl;
-        bestCost = INT_MAX;
-        findShortestPath2();
-        totalBestCost += bestCost;
-    }
-    resultTime = chrono::steady_clock::now() - startTime;
-
-    bestCostDiff = 0;
-    bestCostDiff = (((double)totalBestCost / (double)repeats) - (double)result) * (double)100 / (double)result;
-    cout << bestCost << " - expected: " << result << " difference: " << bestCostDiff << endl;
-    cout << chrono::duration <double>(resultTime).count() / repeats << "s \n";
-
-
-    totalBestCost = 0;
-
-    startTime = chrono::steady_clock::now();
-
-    for (int q = 0; q < repeats; ++q)
-    {
-        cout << "Iteration " << q << endl;
-        bestCost = INT_MAX;
-        findShortestPath3();
-        totalBestCost += bestCost;
-    }
-    resultTime = chrono::steady_clock::now() - startTime;
-
-    bestCostDiff = 0;
-    bestCostDiff = (((double)totalBestCost / (double)repeats) - (double)result) * (double)100 / (double)result;
-    cout << bestCost << " - expected: " << result << " difference: " << bestCostDiff << endl;
-    cout << chrono::duration <double>(resultTime).count() / repeats << "s \n";
     while (1);
 }
