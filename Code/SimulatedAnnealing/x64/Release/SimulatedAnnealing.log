@@ -1,10 +1,16 @@
 ﻿  SimulatedAnnealing.cpp
-C:\Users\SuperCiuper\Documents\GitHub\PEAproject\Code\SimulatedAnnealing\SimulatedAnnealing.cpp(106,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\SuperCiuper\Documents\GitHub\PEAproject\Code\SimulatedAnnealing\SimulatedAnnealing.cpp(103,18): warning C4101: 'vertex2': unreferenced local variable
-C:\Users\SuperCiuper\Documents\GitHub\PEAproject\Code\SimulatedAnnealing\SimulatedAnnealing.cpp(103,9): warning C4101: 'vertex1': unreferenced local variable
+C:\Users\szymo\Dokumenty\GitHub\PEAproject\Code\SimulatedAnnealing\SimulatedAnnealing.cpp(106,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\szymo\Dokumenty\GitHub\PEAproject\Code\SimulatedAnnealing\SimulatedAnnealing.cpp(103,18): warning C4101: 'vertex2': unreferenced local variable
+C:\Users\szymo\Dokumenty\GitHub\PEAproject\Code\SimulatedAnnealing\SimulatedAnnealing.cpp(103,9): warning C4101: 'vertex1': unreferenced local variable
+C:\Users\szymo\Dokumenty\GitHub\PEAproject\Code\SimulatedAnnealing\SimulatedAnnealing.cpp(202,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\szymo\Dokumenty\GitHub\PEAproject\Code\SimulatedAnnealing\SimulatedAnnealing.cpp(199,18): warning C4101: 'vertex2': unreferenced local variable
+C:\Users\szymo\Dokumenty\GitHub\PEAproject\Code\SimulatedAnnealing\SimulatedAnnealing.cpp(199,9): warning C4101: 'vertex1': unreferenced local variable
+C:\Users\szymo\Dokumenty\GitHub\PEAproject\Code\SimulatedAnnealing\SimulatedAnnealing.cpp(298,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\szymo\Dokumenty\GitHub\PEAproject\Code\SimulatedAnnealing\SimulatedAnnealing.cpp(295,18): warning C4101: 'vertex2': unreferenced local variable
+C:\Users\szymo\Dokumenty\GitHub\PEAproject\Code\SimulatedAnnealing\SimulatedAnnealing.cpp(295,9): warning C4101: 'vertex1': unreferenced local variable
   Generating code
-  2 of 317 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
+  1 of 342 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  SimulatedAnnealing.vcxproj -> C:\Users\SuperCiuper\Documents\GitHub\PEAproject\Code\x64\Release\SimulatedAnnealing.exe
+  SimulatedAnnealing.vcxproj -> C:\Users\szymo\Dokumenty\GitHub\PEAproject\Code\x64\Release\SimulatedAnnealing.exe
