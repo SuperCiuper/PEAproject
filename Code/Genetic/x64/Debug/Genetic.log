@@ -1,0 +1,3 @@
+﻿  Genetic.cpp
+C:\Users\SuperCiuper\Documents\GitHub\PEAproject\Code\Genetic\Genetic.cpp(133,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Genetic.vcxproj -> C:\Users\SuperCiuper\Documents\GitHub\PEAproject\Code\x64\Debug\Genetic.exe

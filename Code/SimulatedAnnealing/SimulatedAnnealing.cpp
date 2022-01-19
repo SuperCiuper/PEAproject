@@ -59,6 +59,10 @@ int getCost()
     return cost;
 }
 
+void swapp(int q, int w) {
+    swap(nextPath[q], nextPath[w]);
+}
+
 void invert(int q, int w)
 {
     if (w < q)
@@ -116,7 +120,7 @@ void findShortestPath()
                 vertex2 = rand() % (n - 1);
 
             //version with single element swap
-            //swap(vertex1, vertex2);
+            //swapp(vertex1, vertex2);
 
             //version with invert
             //invert(vertex1, vertex2);
