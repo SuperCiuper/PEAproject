@@ -16,7 +16,7 @@ mutacja - losowa zamiana miast (inwersja, swap) Pm
 sukcesja - usuwanie genów (usuwanie 1/4 genów, usuwanie wszystkich starych genów)
 */
 #define MUTATION_PROBABILITY 100
-#define TOURNAMENT_VERTEXES 20
+#define TOURNAMENT_VERTEXES 10
 
 int n;
 int connections[2000][2000];
@@ -82,7 +82,7 @@ void selectGenes() {
     //turniej
     vector<pair<gene, int>> randGenes;
     
-    for (int q = 0; q < max(5, n / TOURNAMENT_VERTEXES); ++q) {
+    for (int q = 0; q < 5; ++q) {
         int position = rand() % population.size();
         randGenes.push_back(make_pair(population[position], position));
     }
@@ -159,7 +159,7 @@ void succession(vector<gene> new_population) {
 void findShortestPath()
 {
     bestCost = INT_MAX;
-    int POP_SIZE = max(n, 100);
+    int POP_SIZE = max(n/2, 50);
 
     srand(time(0));
 
@@ -205,7 +205,7 @@ void findShortestPath()
 
 int main()
 {
-    /*
+    
     cout << "Data file should not have any \' \' before first character in a row" << endl;
     file.open("XD.INI");
     string dataFile = read().str();
@@ -217,7 +217,36 @@ int main()
     file.close();
     file.open(dataFile);
     read() >> n;
-    */
+    result = 0;
+
+    for (int q = 0; q < n; ++q)
+    {
+        allVertexes.push_back(q);
+        for (int w = 0; w < n; ++w)
+        {
+            read() >> connections[q][w];
+        }
+    }
+    allVertexes.erase(allVertexes.begin());
+
+    cout << "\ngot it\n";
+    read() >> result;
+    auto startTime = chrono::steady_clock::now();
+
+    for (int q = 0; q < repeats; ++q)
+    {
+        cout << "Iteration " << q << endl;
+        findShortestPath();
+        population.clear();
+    }
+    auto resultTime = chrono::steady_clock::now() - startTime;
+
+    double bestCostDiff = ((double)bestCost - (double)result) * (double)100 / (double)result;
+    cout << bestCost << " - expected: " << result << " difference: " << bestCostDiff << endl;
+    cout << chrono::duration <double>(resultTime).count() / repeats << "s \n";
+
+
+    /*
     for(int e = 0; e< 9; ++e){
         cout << "Data file should not have any \' \' before first character in a row" << endl;
         string dataFile[9] = {"m15.txt", "gr21.txt", "gr48.txt", "gr96.txt", "lin105.txt", "gr137.txt", "gr202.txt", "lin318.txt", "gr431.txt"};
@@ -257,5 +286,6 @@ int main()
         population.clear();
         allVertexes.clear();
     }
+    */
     while (1);
 }
